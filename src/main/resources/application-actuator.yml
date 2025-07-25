@@ -1,0 +1,17 @@
+management:
+  health:
+    defaults:
+      enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: health
+      base-path: /pickly-actuator
+    jmx:
+      exposure:
+        exclude: "*"
+    access:
+      default: none
+  endpoint:
+    health:
+      access: read_only

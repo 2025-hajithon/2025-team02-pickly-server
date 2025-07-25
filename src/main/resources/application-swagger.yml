@@ -1,0 +1,8 @@
+spring:
+  config:
+    activate:
+      on-profile: swagger
+
+spring-doc:
+  swagger-ui:
+    tags-sorter: alpha

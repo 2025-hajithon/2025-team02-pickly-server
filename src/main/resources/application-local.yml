@@ -1,0 +1,19 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: ${FORMAT_SQL:true}
+        highlight_sql: ${HIGHLIGHT_SQL:true}
+        generate_statistics: ${GENERATE_STATISTICS:false}
+
+logging:
+  level:
+    org.hibernate.SQL: ${LOG_LEVEL_HIBERNATE_SQL:debug}
+    org.hibernate.orm.jdbc.bind: ${LOG_LEVEL_HIBERNATE_BIND:trace}
+    org.hibernate.stat: ${LOG_LEVEL_HIBERNATE_STAT:info}

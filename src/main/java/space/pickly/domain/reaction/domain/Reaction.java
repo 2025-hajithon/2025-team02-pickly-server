@@ -24,7 +24,7 @@ import space.pickly.domain.user.domain.User;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(
         name = "reaction",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"article_id", "user_id"})})
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"article_id", "user_id", "type"})})
 public class Reaction {
 
     @Id

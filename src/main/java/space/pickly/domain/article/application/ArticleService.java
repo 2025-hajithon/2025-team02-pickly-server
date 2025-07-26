@@ -45,6 +45,12 @@ public class ArticleService {
     }
 
     @Transactional(readOnly = true)
+    public List<ArticleOngoingResponse> findMyOngoingArticles() {
+        User currentUser = userUtil.getCurrentUser();
+        return articleRepository.findMyOngoingArticles(currentUser.getId());
+    }
+
+    @Transactional(readOnly = true)
     public List<ArticleReviewedResponse> findReviewedArticles() {
         User currentUser = userUtil.getCurrentUser();
         return articleRepository.findReviewedArticles(currentUser.getId());

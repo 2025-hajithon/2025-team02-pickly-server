@@ -158,6 +158,24 @@ public class ArticleCustomRepositoryImpl implements ArticleCustomRepository {
                 Choice.SECOND);
     }
 
+    @Override
+    public List<ArticleReviewedResponse> findMyReviewedArticles(Long currentUserId) {
+        LocalDateTime now = LocalDateTime.now();
+
+        List<Long> articleIds = queryFactory
+                .select(article.id)
+                .from(article)
+                .where(article.user
+                        .id
+                        .eq(currentUserId)
+                        .and(article.voteEndsAt.lt(now))
+                        .and(article.review.choice.ne(Choice.NONE)))
+                .orderBy(article.updatedAt.desc())
+                .fetch();
+
+        return articleIds.stream().map(this::buildArticleReviewedResponse).toList();
+    }
+
     private ArticleToReviewResponse buildArticleToReviewResponse(Long articleId) {
         Long voteCount = queryFactory
                 .select(vote.count())

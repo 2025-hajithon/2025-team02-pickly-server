@@ -61,4 +61,10 @@ public class ArticleService {
         User currentUser = userUtil.getCurrentUser();
         return articleRepository.findMyArticlesToReview(currentUser.getId());
     }
+
+    @Transactional(readOnly = true)
+    public List<ArticleReviewedResponse> findMyReviewedArticles() {
+        User currentUser = userUtil.getCurrentUser();
+        return articleRepository.findMyReviewedArticles(currentUser.getId());
+    }
 }

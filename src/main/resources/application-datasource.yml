@@ -5,10 +5,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${DS_HOST:localhost}:${DS_PORT:3306}/${DS_DATABASE:pickly}?zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
-    username: ${DS_USERNAME:}
-    password: ${DS_PASSWORD:}
-
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/pickly?zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true}
+    username: ${SPRING_DATASOURCE_USERNAME:}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
   jpa:
     properties:
       hibernate:

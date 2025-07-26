@@ -1,7 +1,6 @@
 package space.pickly.domain.vote.domain;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -38,7 +37,6 @@ public class Vote extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Choice choice;
 
-    @Embedded()
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "article_id")
     private Article article;

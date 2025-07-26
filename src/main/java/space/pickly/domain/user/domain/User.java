@@ -29,20 +29,25 @@ public class User extends BaseEntity {
 
     private String oauthProvider;
 
+    private String oauthEmail;
+
     @Builder
-    private User(String nickname, String profileImageUrl, String oauthId, String oauthProvider) {
+    private User(String nickname, String profileImageUrl, String oauthId, String oauthProvider, String oauthEmail) {
         this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;
         this.oauthId = oauthId;
         this.oauthProvider = oauthProvider;
+        this.oauthEmail = oauthEmail;
     }
 
-    public static User create(String nickname, String profileImageUrl, String oauthId, String oauthProvider) {
+    public static User create(
+            String nickname, String profileImageUrl, String oauthId, String oauthProvider, String oauthEmail) {
         return User.builder()
                 .nickname(nickname)
                 .profileImageUrl(profileImageUrl)
                 .oauthId(oauthId)
                 .oauthProvider(oauthProvider)
+                .oauthEmail(oauthEmail)
                 .build();
     }
 }

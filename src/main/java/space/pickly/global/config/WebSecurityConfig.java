@@ -23,11 +23,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import space.pickly.domain.auth.application.JwtService;
 import space.pickly.global.annotation.ConditionalOnProfile;
 import space.pickly.global.auth.CustomAuthenticationEntryPoint;
+import space.pickly.global.auth.JwtExceptionFilter;
+import space.pickly.global.auth.JwtFilter;
 import space.pickly.global.property.BasicAuthProperty;
 import space.pickly.global.util.ProfileUtil;
 
@@ -36,6 +40,7 @@ import space.pickly.global.util.ProfileUtil;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
+    private final JwtService jwtService;
     private final ObjectMapper objectMapper;
     private final BasicAuthProperty basicAuthProperty;
     private final ProfileUtil profileUtil;
@@ -59,7 +64,8 @@ public class WebSecurityConfig {
                 .anyRequest()
                 .authenticated());
 
-        // TODO: add filter for jwt
+        http.addFilterBefore(jwtExceptionFilter(objectMapper), LogoutFilter.class);
+        http.addFilterAfter(jwtFilter(jwtService), LogoutFilter.class);
 
         http.exceptionHandling(
                 exception -> exception.authenticationEntryPoint(customAuthenticationEntryPoint(objectMapper)));
@@ -73,7 +79,9 @@ public class WebSecurityConfig {
     public SecurityFilterChain swaggerFilterChain(HttpSecurity http) throws Exception {
         defaultFilterChain(http);
 
-        http.securityMatcher(getSwaggerUrls()).httpBasic(withDefaults());
+        http.securityMatcher(getSwaggerUrls())
+                .oauth2Login(AbstractHttpConfigurer::disable)
+                .httpBasic(withDefaults());
 
         http.authorizeHttpRequests(
                 profileUtil.isDevProfile()
@@ -99,6 +107,16 @@ public class WebSecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public JwtFilter jwtFilter(JwtService jwtService) {
+        return new JwtFilter(jwtService);
+    }
+
+    @Bean
+    public JwtExceptionFilter jwtExceptionFilter(ObjectMapper objectMapper) {
+        return new JwtExceptionFilter(objectMapper);
     }
 
     @Bean

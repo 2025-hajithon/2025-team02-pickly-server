@@ -3,6 +3,13 @@ spring:
     activate:
       on-profile: security
 
+jwt:
+  issuer: ${SECURITY_JWT_ISSUER:}
+  access-token-secret: ${SECURITY_JWT_ACCESS_TOKEN_SECRET:}
+  access-token-expiration: ${SECURITY_JWT_ACCESS_TOKEN_EXPIRATION:7200}
+  refresh-token-secret: ${SECURITY_JWT_REFRESH_TOKEN_SECRET:}
+  refresh-token-expiration: ${SECURITY_JWT_REFRESH_TOKEN_EXPIRATION:259200}
+
 basic-auth:
   username: ${SECURITY_BASIC_AUTH_USERNAME:default}
   password: ${SECURITY_BASIC_AUTH_PASSWORD:default}

@@ -1,5 +1,5 @@
 # --- Build Stage: Compile, Test, and Package ---
-FROM gradle:7.6-jdk17 AS build
+FROM gradle:8.4-jdk21 AS build
 WORKDIR /app
 
 # 1. Copy build scripts and wrapper

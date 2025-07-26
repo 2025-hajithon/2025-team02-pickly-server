@@ -2,6 +2,7 @@ package space.pickly.domain.vote.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
@@ -12,22 +13,22 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jdk.jfr.Enabled;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import space.pickly.domain.article.domain.Article;
 import space.pickly.domain.article.domain.Choice;
+import space.pickly.domain.common.model.BaseEntity;
 import space.pickly.domain.user.domain.User;
 
 @Getter
-@Enabled
+@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(
         name = "vote",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"article_id", "user_id"})})
-public class Vote {
+public class Vote extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

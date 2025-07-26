@@ -45,7 +45,7 @@ public class Article extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Builder
+    @Builder(access = AccessLevel.PRIVATE)
     private Article(
             String title,
             String content,

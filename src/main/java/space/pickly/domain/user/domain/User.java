@@ -31,7 +31,7 @@ public class User extends BaseEntity {
 
     private String oauthEmail;
 
-    @Builder
+    @Builder(access = AccessLevel.PRIVATE)
     private User(String nickname, String profileImageUrl, String oauthId, String oauthProvider, String oauthEmail) {
         this.nickname = nickname;
         this.profileImageUrl = profileImageUrl;

@@ -44,6 +44,19 @@ public class ArticleCustomRepositoryImpl implements ArticleCustomRepository {
                 .fetch();
     }
 
+    @Override
+    public List<ArticleOngoingResponse> findMyOngoingArticles(Long currentUserId) {
+        LocalDateTime now = LocalDateTime.now();
+
+        return queryFactory
+                .select(getArticleOngoingResponse())
+                .from(article)
+                .innerJoin(article.user, user)
+                .where(article.voteEndsAt.gt(now).and(article.user.id.eq(currentUserId)))
+                .orderBy(article.voteEndsAt.asc())
+                .fetch();
+    }
+
     private QArticleOngoingResponse getArticleOngoingResponse() {
         return new QArticleOngoingResponse(getArticleDto(), getUserSimpleDto(), vote.count());
     }

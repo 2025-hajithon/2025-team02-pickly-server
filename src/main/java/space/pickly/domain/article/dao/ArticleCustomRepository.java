@@ -9,6 +9,8 @@ public interface ArticleCustomRepository {
 
     List<ArticleOngoingResponse> findOngoingArticles();
 
+    List<ArticleOngoingResponse> findMyOngoingArticles(Long currentUserId);
+
     List<ArticleReviewedResponse> findReviewedArticles(Long currentUserId);
 
     List<ArticleToReviewResponse> findMyArticlesToReview(Long currentUserId);

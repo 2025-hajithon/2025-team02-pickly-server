@@ -38,6 +38,13 @@ public class ArticleController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "진행 중인 내 고민 목록 조회", description = "진행 중인 내 고민 목록을 모두 조회합니다.")
+    @GetMapping("/ongoing/me")
+    public ResponseEntity<List<ArticleOngoingResponse>> findMyOngoingArticles() {
+        var response = articleService.findMyOngoingArticles();
+        return ResponseEntity.ok(response);
+    }
+
     @Operation(summary = "투표 후 후기 작성된 고민 목록 조회", description = "내가 투표한 이후 후기가 작성된 고민 목록을 모두 조회합니다.")
     @GetMapping("/reviewed")
     public ResponseEntity<List<ArticleReviewedResponse>> findReviewedArticles() {

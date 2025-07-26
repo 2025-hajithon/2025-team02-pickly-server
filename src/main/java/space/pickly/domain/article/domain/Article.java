@@ -1,6 +1,7 @@
 package space.pickly.domain.article.domain;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -37,6 +38,7 @@ public class Article extends BaseEntity {
 
     private LocalDateTime voteEndsAt;
 
+    @Embedded
     private Review review;
 
     @ManyToOne(fetch = FetchType.LAZY)

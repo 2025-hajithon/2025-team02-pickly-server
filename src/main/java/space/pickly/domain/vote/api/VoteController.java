@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import space.pickly.domain.vote.application.VoteService;
 import space.pickly.domain.vote.dto.request.VoteCreateRequest;
 
-@Tag(name = "[Article]", description = "게시글 API")
+@Tag(name = "[Vote]", description = "투표 API")
 @RestController
-@RequestMapping("/articles")
+@RequestMapping("/votes")
 @RequiredArgsConstructor
 public class VoteController {
 

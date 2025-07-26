@@ -80,4 +80,8 @@ public class Article extends BaseEntity {
                 .user(user)
                 .build();
     }
+
+    public boolean hasVoteEnded(LocalDateTime now) {
+        return voteEndsAt.isBefore(now);
+    }
 }

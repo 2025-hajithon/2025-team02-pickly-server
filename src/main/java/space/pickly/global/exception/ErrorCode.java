@@ -22,6 +22,13 @@ public enum ErrorCode {
 
     // USER
     USER_NOT_FOUND(NOT_FOUND, "사용자를 찾을 수 없습니다."),
+
+    // ARTICLE
+    ARTICLE_NOT_FOUND(NOT_FOUND, "게시글을 찾을 수 없습니다."),
+
+    // VOTE
+    VOTE_NOT_CREATABLE_VOTE_ENDED(CONFLICT, "투표가 종료된 게시글입니다."),
+    VOTE_NOT_CREATABLE_ALREADY_VOTED(CONFLICT, "이미 투표한 게시글입니다."),
     ;
 
     private final HttpStatus status;

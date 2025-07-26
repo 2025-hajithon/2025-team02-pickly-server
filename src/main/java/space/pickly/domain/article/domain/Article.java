@@ -1,5 +1,6 @@
 package space.pickly.domain.article.domain;
 
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -39,6 +40,7 @@ public class Article extends BaseEntity {
     private LocalDateTime voteEndsAt;
 
     @Embedded
+    @AttributeOverride(name = "content", column = @Column(name = "review_content"))
     private Review review;
 
     @ManyToOne(fetch = FetchType.LAZY)

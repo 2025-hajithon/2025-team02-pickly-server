@@ -1,5 +1,6 @@
 package space.pickly.domain.article.application;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import space.pickly.domain.article.dao.ArticleRepository;
 import space.pickly.domain.article.domain.Article;
 import space.pickly.domain.article.dto.request.ArticleCreateRequest;
+import space.pickly.domain.article.dto.response.ArticleOngoingResponse;
 import space.pickly.domain.user.domain.User;
 import space.pickly.global.util.UserUtil;
 
@@ -33,5 +35,10 @@ public class ArticleService {
         articleRepository.save(article);
 
         log.info("[ArticleService] 고민 생성 완료: articleId={}, userId={}", article.getId(), currentUser.getId());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ArticleOngoingResponse> findOngoingArticles() {
+        return articleRepository.findOngoingArticles();
     }
 }

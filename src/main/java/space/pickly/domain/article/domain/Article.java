@@ -37,6 +37,8 @@ public class Article extends BaseEntity {
 
     private LocalDateTime voteEndsAt;
 
+    private Review review;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -48,12 +50,14 @@ public class Article extends BaseEntity {
             String firstChoice,
             String secondChoice,
             LocalDateTime voteEndsAt,
+            Review review,
             User user) {
         this.title = title;
         this.content = content;
         this.firstChoice = firstChoice;
         this.secondChoice = secondChoice;
         this.voteEndsAt = voteEndsAt;
+        this.review = review;
         this.user = user;
     }
 
@@ -70,6 +74,7 @@ public class Article extends BaseEntity {
                 .firstChoice(firstChoice)
                 .secondChoice(secondChoice)
                 .voteEndsAt(voteEndsAt)
+                .review(Review.empty())
                 .user(user)
                 .build();
     }

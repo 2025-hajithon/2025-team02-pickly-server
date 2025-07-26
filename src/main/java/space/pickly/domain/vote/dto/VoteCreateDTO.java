@@ -3,9 +3,12 @@ package space.pickly.domain.vote.dto;
 
 import lombok.*;
 
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class VoteCreateDTO {
     private Long itemId;
     private Long concernId;
 }
-

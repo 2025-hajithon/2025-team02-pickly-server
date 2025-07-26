@@ -1,5 +1,8 @@
 package space.pickly.domain.review.application;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,16 +14,12 @@ import space.pickly.domain.concern.dto.ConcernFeedDTO;
 import space.pickly.domain.review.dao.ReviewRepository;
 import space.pickly.domain.review.domain.Review;
 import space.pickly.domain.review.dto.ConcernReviewCardDTO;
-import space.pickly.domain.review.dto.ReviewDTO;
 import space.pickly.domain.review.dto.ReviewCreateRequestDTO;
+import space.pickly.domain.review.dto.ReviewDTO;
 import space.pickly.domain.user.dao.UserRepository;
 import space.pickly.domain.user.domain.User;
 import space.pickly.global.exception.CustomException;
 import space.pickly.global.exception.ErrorCode;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +37,8 @@ public class ReviewService {
     @Transactional
     public ReviewDTO createReview(ReviewCreateRequestDTO requestDTO, Long userId) {
         // Find the concern
-        Concern concern = concernRepository.findById(requestDTO.getConcernId())
+        Concern concern = concernRepository
+                .findById(requestDTO.getConcernId())
                 .orElseThrow(() -> CustomException.from(ErrorCode.CONCERN_NOT_FOUND));
 
         // Check if the user is the author of the concern
@@ -52,8 +52,7 @@ public class ReviewService {
         }
 
         // Find the user
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> CustomException.from((ErrorCode.USER_NOT_FOUND)));
+        User user = userRepository.findById(userId).orElseThrow(() -> CustomException.from((ErrorCode.USER_NOT_FOUND)));
 
         // Find the selected item
         ConcernItem selectedItem = concern.getItems().stream()
@@ -67,7 +66,6 @@ public class ReviewService {
 
         return ReviewDTO.from(savedReview);
     }
-
 
     /**
      * Get all reviews
@@ -88,9 +86,7 @@ public class ReviewService {
                     boolean hasReviewed = optReview.isPresent();
 
                     // (c) ReviewDTO 로 매핑 (없으면 null)
-                    ReviewDTO reviewDto = optReview
-                            .map(ReviewDTO::from)
-                            .orElse(null);
+                    ReviewDTO reviewDto = optReview.map(ReviewDTO::from).orElse(null);
 
                     // (d) 최종 ConcermReviewCardDTO 생성
                     return ConcernReviewCardDTO.from(feed, hasReviewed, reviewDto);

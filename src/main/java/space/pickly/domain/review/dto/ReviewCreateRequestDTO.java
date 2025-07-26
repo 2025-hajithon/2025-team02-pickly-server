@@ -1,5 +1,6 @@
 package space.pickly.domain.review.dto;
 
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,8 +10,6 @@ import space.pickly.domain.concern.domain.ConcernItem;
 import space.pickly.domain.review.domain.Review;
 import space.pickly.domain.user.domain.User;
 
-import java.time.LocalDateTime;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,7 +18,7 @@ public class ReviewCreateRequestDTO {
     private Long concernId;
     private String content;
     private Long selectedItemId;
-    
+
     // Convert DTO to Review entity
     public Review toReview(Concern concern, User author, ConcernItem selectedItem) {
         return Review.builder()

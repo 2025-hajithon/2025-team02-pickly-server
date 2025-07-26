@@ -5,7 +5,11 @@ import lombok.*;
 
 @Entity
 @Table(name = "concern_settings")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ConcernSetting {
 
     @Id

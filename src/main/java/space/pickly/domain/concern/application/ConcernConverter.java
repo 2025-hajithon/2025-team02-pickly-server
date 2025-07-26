@@ -1,14 +1,13 @@
 package space.pickly.domain.concern.application;
 
-import org.springframework.stereotype.Component;
-import space.pickly.domain.concern.domain.Concern;
-import space.pickly.domain.concern.dto.ConcernFeedDTO;
-import space.pickly.domain.concern.dto.ConcernItemFeedDTO;
-
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
+import space.pickly.domain.concern.domain.Concern;
+import space.pickly.domain.concern.dto.ConcernFeedDTO;
+import space.pickly.domain.concern.dto.ConcernItemFeedDTO;
 
 @Component
 public class ConcernConverter {
@@ -37,7 +36,6 @@ public class ConcernConverter {
                             .build();
                 })
                 .collect(Collectors.toList());
-
 
         // Build and return the DTO
         return ConcernFeedDTO.from(concern, itemDTOs);

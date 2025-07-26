@@ -1,17 +1,20 @@
 package space.pickly.domain.concern.domain;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.*;
 import space.pickly.domain.review.domain.Review;
 import space.pickly.domain.vote.domain.Vote;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "concerns")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Concern {
 
     @Id

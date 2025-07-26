@@ -1,14 +1,18 @@
 package space.pickly.domain.concern.domain;
+
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.*;
 import space.pickly.domain.vote.domain.Vote;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Table(name = "concern_items")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ConcernItem {
 
     @Id

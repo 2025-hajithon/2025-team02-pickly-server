@@ -14,7 +14,8 @@ public class ConcernReviewCardDTO {
     private ConcernFeedDTO concern;
     private boolean hasReviewed;
     private ReviewDTO review;
-    public static ConcernReviewCardDTO from(ConcernFeedDTO concern,boolean hasReviewed, ReviewDTO review) {
+
+    public static ConcernReviewCardDTO from(ConcernFeedDTO concern, boolean hasReviewed, ReviewDTO review) {
         return ConcernReviewCardDTO.builder()
                 .concern(concern)
                 .hasReviewed(hasReviewed)
@@ -22,4 +23,3 @@ public class ConcernReviewCardDTO {
                 .build();
     }
 }
-

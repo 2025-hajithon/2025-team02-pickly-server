@@ -1,5 +1,6 @@
 package space.pickly.domain.concern.api;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -8,8 +9,6 @@ import space.pickly.domain.concern.application.ConcernService;
 import space.pickly.domain.concern.domain.Concern;
 import space.pickly.domain.concern.dto.ConcernCreateRequestDTO;
 import space.pickly.domain.concern.dto.ConcernFeedDTO;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/concerns")
@@ -24,9 +23,8 @@ public class ConcernController {
      */
     @PostMapping
     public ResponseEntity<ConcernFeedDTO> createConcern(
-            @RequestBody ConcernCreateRequestDTO requestDTO,
-            @AuthenticationPrincipal Long tempUserId) {
-        
+            @RequestBody ConcernCreateRequestDTO requestDTO, @AuthenticationPrincipal Long tempUserId) {
+
         Concern concern = requestDTO.toConcern(1L);
         ConcernFeedDTO dto = concernService.createConcern(concern);
 
@@ -38,12 +36,10 @@ public class ConcernController {
      * 내 고민 조회 - all
      */
     @GetMapping("/my")
-    public ResponseEntity<List<ConcernFeedDTO>> getMyConcerns(
-            @AuthenticationPrincipal Long tempUserId) {
-        
+    public ResponseEntity<List<ConcernFeedDTO>> getMyConcerns(@AuthenticationPrincipal Long tempUserId) {
+
         List<ConcernFeedDTO> concerns = concernService.getMyConcerns(1L);
-        
-        
+
         return ResponseEntity.ok(concerns);
     }
 
@@ -52,11 +48,10 @@ public class ConcernController {
      * 내 고민 조회 - 후기 작성 안한 고민
      */
     @GetMapping("/my/without-review")
-    public ResponseEntity<List<ConcernFeedDTO>> getMyConcernsWithoutReview(
-            @AuthenticationPrincipal Long tempUserId) {
-        
+    public ResponseEntity<List<ConcernFeedDTO>> getMyConcernsWithoutReview(@AuthenticationPrincipal Long tempUserId) {
+
         List<ConcernFeedDTO> concerns = concernService.getMyConcernsWithoutReview(1L);
-        
+
         return ResponseEntity.ok(concerns);
     }
 
@@ -66,9 +61,9 @@ public class ConcernController {
      */
     @GetMapping("/ongoing")
     public ResponseEntity<List<ConcernFeedDTO>> getOngoingConcerns() {
-        
+
         List<ConcernFeedDTO> concerns = concernService.getOngoingConcerns();
-        
+
         return ResponseEntity.ok(concerns);
     }
 }

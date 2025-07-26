@@ -1,15 +1,14 @@
 package space.pickly.domain.review.api;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import space.pickly.domain.review.application.ReviewService;
 import space.pickly.domain.review.dto.ConcernReviewCardDTO;
-import space.pickly.domain.review.dto.ReviewDTO;
 import space.pickly.domain.review.dto.ReviewCreateRequestDTO;
-
-import java.util.List;
+import space.pickly.domain.review.dto.ReviewDTO;
 
 @RestController
 @RequestMapping("/api/reviews")
@@ -24,11 +23,10 @@ public class ReviewController {
      */
     @PostMapping
     public ResponseEntity<ReviewDTO> createReview(
-            @RequestBody ReviewCreateRequestDTO requestDTO,
-            @AuthenticationPrincipal Long tempUserId) {
-        
+            @RequestBody ReviewCreateRequestDTO requestDTO, @AuthenticationPrincipal Long tempUserId) {
+
         ReviewDTO reviewDTO = reviewService.createReview(requestDTO, 1L); // Using hardcoded user ID for now
-        
+
         return ResponseEntity.ok(reviewDTO);
     }
 
@@ -43,5 +41,4 @@ public class ReviewController {
 
         return ResponseEntity.ok(reviews);
     }
-
 }

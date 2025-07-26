@@ -14,7 +14,7 @@ import space.pickly.domain.concern.domain.ConcernItem;
 public class ConcernItemFeedDTO {
     private Long id;
     private String content;
-    private int voteCount;    // 투표 수
+    private int voteCount; // 투표 수
     private double percent;
 
     public static ConcernItemFeedDTO from(ConcernItem concernItem, int totalVoteCount) {
@@ -24,6 +24,5 @@ public class ConcernItemFeedDTO {
                 .voteCount(concernItem.getVoteCount())
                 .percent(((double) concernItem.getVoteCount()) / totalVoteCount)
                 .build();
-
     }
 }

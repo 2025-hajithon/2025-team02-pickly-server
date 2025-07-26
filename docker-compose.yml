@@ -1,0 +1,23 @@
+services:
+  pickly:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: "${DOCKERHUB_USERNAME}/pickly-be:${IMAGE_TAG}"
+    container_name: pickly-be
+    # 변수 범위: docker-compose파일
+    env_file:
+      - ./.env
+    ports:
+      - "8080:8080"
+    networks:
+      - backend-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/pickly-actuator/health"]
+      interval: 30s
+      retries: 3
+    # 변수 범위: 컨테이너 내부 어플리케이션
+#    environment:
+
+networks:
+  backend-net:

@@ -20,4 +20,6 @@ public class UrlConstant {
     public static final String DEV_SERVER_URL = "https://dev-api.pickly.space";
     public static final String LOCAL_SERVER_URL = "http://localhost:8080";
     public static final List<String> SERVER_URLS = List.of(PROD_SERVER_URL, DEV_SERVER_URL, LOCAL_SERVER_URL);
+
+    public static final String ROOT_DOMAIN = "pickly.space";
 }

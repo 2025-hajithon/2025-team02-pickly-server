@@ -28,11 +28,15 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import space.pickly.domain.auth.application.JwtService;
+import space.pickly.domain.user.dao.UserRepository;
 import space.pickly.global.annotation.ConditionalOnProfile;
 import space.pickly.global.auth.CustomAuthenticationEntryPoint;
+import space.pickly.global.auth.CustomSuccessHandler;
+import space.pickly.global.auth.CustomUserService;
 import space.pickly.global.auth.JwtExceptionFilter;
 import space.pickly.global.auth.JwtFilter;
 import space.pickly.global.property.BasicAuthProperty;
+import space.pickly.global.util.CookieUtil;
 import space.pickly.global.util.ProfileUtil;
 
 @Configuration
@@ -40,10 +44,12 @@ import space.pickly.global.util.ProfileUtil;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
+    private final UserRepository userRepository;
     private final JwtService jwtService;
     private final ObjectMapper objectMapper;
     private final BasicAuthProperty basicAuthProperty;
     private final ProfileUtil profileUtil;
+    private final CookieUtil cookieUtil;
 
     private void defaultFilterChain(HttpSecurity http) throws Exception {
         http.httpBasic(AbstractHttpConfigurer::disable)
@@ -58,8 +64,15 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         defaultFilterChain(http);
 
+        http.oauth2Login(
+                oauth2 -> oauth2.userInfoEndpoint(userInfo -> userInfo.userService(customUserService(userRepository)))
+                        .successHandler(customSuccessHandler(jwtService, cookieUtil))
+                        .failureHandler((request, response, exception) -> response.setStatus(401)));
+
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/pickly-actuator/**")
+                .permitAll()
+                .requestMatchers("/oauth2/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated());
@@ -117,6 +130,16 @@ public class WebSecurityConfig {
     @Bean
     public JwtExceptionFilter jwtExceptionFilter(ObjectMapper objectMapper) {
         return new JwtExceptionFilter(objectMapper);
+    }
+
+    @Bean
+    public CustomUserService customUserService(UserRepository userRepository) {
+        return new CustomUserService(userRepository);
+    }
+
+    @Bean
+    public CustomSuccessHandler customSuccessHandler(JwtService jwtService, CookieUtil cookieUtil) {
+        return new CustomSuccessHandler(jwtService, cookieUtil);
     }
 
     @Bean

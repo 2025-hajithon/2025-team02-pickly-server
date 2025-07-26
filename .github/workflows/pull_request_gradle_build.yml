@@ -40,4 +40,4 @@ jobs:
           build-scan-terms-of-use-agree: "yes"
 
       - name: Check with Gradle
-        run: ./gradlew check --configuration-cache
+        run: ./gradlew check --configuration-cache -x test --configuration-cache

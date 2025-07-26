@@ -2,3 +2,7 @@ spring:
   config:
     activate:
       on-profile: security
+
+basic-auth:
+  username: ${SECURITY_BASIC_AUTH_USERNAME:default}
+  password: ${SECURITY_BASIC_AUTH_PASSWORD:default}

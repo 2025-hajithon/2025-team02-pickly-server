@@ -1,4 +1,4 @@
-package space.pickly.domain.vote.domain;
+package space.pickly.domain.reaction.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,42 +17,44 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import space.pickly.domain.article.domain.Article;
-import space.pickly.domain.article.domain.Choice;
-import space.pickly.domain.common.model.BaseEntity;
 import space.pickly.domain.user.domain.User;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(
-        name = "vote",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"article_id", "user_id"})})
-public class Vote extends BaseEntity {
+        name = "reaction",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"article_id", "user_id", "type"})})
+public class Reaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "vote_id")
+    @Column(name = "reaction_id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private Choice choice;
+    private ReactionType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "article_id")
     private Article article;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @Builder(access = AccessLevel.PRIVATE)
-    private Vote(Choice choice, Article article, User user) {
-        this.choice = choice;
+    private Reaction(ReactionType type, Article article, User user) {
+        this.type = type;
         this.article = article;
         this.user = user;
     }
 
-    public static Vote create(Choice choice, Article article, User user) {
-        return Vote.builder().choice(choice).article(article).user(user).build();
+    public static Reaction create(ReactionType type, Article article, User user) {
+        return Reaction.builder().type(type).article(article).user(user).build();
+    }
+
+    public void updateType(ReactionType type) {
+        this.type = type;
     }
 }

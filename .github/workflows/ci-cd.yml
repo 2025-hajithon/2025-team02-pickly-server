@@ -2,7 +2,7 @@ name: CI-CD Pipeline
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ develop ]
 
 jobs:
   # 1. 빌드·테스트·이미지 푸시
@@ -47,7 +47,7 @@ jobs:
   deploy:
     environment: env
     needs: build
-    if: github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
 
     steps:

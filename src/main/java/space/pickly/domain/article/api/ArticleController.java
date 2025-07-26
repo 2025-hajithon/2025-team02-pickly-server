@@ -40,6 +40,7 @@ public class ArticleController {
     @Operation(summary = "투표 후 후기 작성된 고민 목록 조회", description = "내가 투표한 이후 후기가 작성된 고민 목록을 모두 조회합니다.")
     @GetMapping("/reviewed")
     public ResponseEntity<List<ArticleReviewedResponse>> findReviewedArticles() {
-        return null;
+        var response = articleService.findReviewedArticles();
+        return ResponseEntity.ok(response);
     }
 }

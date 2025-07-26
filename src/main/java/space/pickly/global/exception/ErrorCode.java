@@ -29,7 +29,10 @@ public enum ErrorCode {
     // VOTE
     VOTE_NOT_CREATABLE_VOTE_ENDED(CONFLICT, "투표가 종료된 게시글입니다."),
     VOTE_NOT_CREATABLE_ALREADY_VOTED(CONFLICT, "이미 투표한 게시글입니다."),
-    ;
+
+    // REACTION
+    REACTION_NOT_FOUND(NOT_FOUND, "리액션을 찾을 수 없습니다."),
+    REACTION_NOT_CREATABLE_AUTHOR(CONFLICT, "게시글 작성자는 반응을 남길 수 없습니다.");
 
     private final HttpStatus status;
     private final String message;

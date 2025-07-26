@@ -18,8 +18,10 @@ import space.pickly.domain.article.domain.Choice;
 import space.pickly.domain.article.dto.dto.QArticleDto;
 import space.pickly.domain.article.dto.response.ArticleOngoingResponse;
 import space.pickly.domain.article.dto.response.ArticleReviewedResponse;
+import space.pickly.domain.article.dto.response.ArticleToReviewResponse;
 import space.pickly.domain.article.dto.response.QArticleOngoingResponse;
 import space.pickly.domain.article.dto.response.QArticleReviewedResponse;
+import space.pickly.domain.article.dto.response.QArticleToReviewResponse;
 import space.pickly.domain.reaction.domain.ReactionType;
 import space.pickly.domain.user.dto.dto.QUserSimpleDto;
 
@@ -78,6 +80,24 @@ public class ArticleCustomRepositoryImpl implements ArticleCustomRepository {
         return articleIds.stream().map(this::buildArticleReviewedResponse).toList();
     }
 
+    @Override
+    public List<ArticleToReviewResponse> findMyArticlesToReview(Long currentUserId) {
+        LocalDateTime now = LocalDateTime.now();
+
+        List<Long> articleIds = queryFactory
+                .select(article.id)
+                .from(article)
+                .where(article.user
+                        .id
+                        .eq(currentUserId)
+                        .and(article.voteEndsAt.lt(now))
+                        .and(article.review.choice.eq(Choice.NONE)))
+                .orderBy(article.voteEndsAt.desc())
+                .fetch();
+
+        return articleIds.stream().map(this::buildArticleToReviewResponse).toList();
+    }
+
     private ArticleReviewedResponse buildArticleReviewedResponse(Long articleId) {
         Map<ReactionType, Integer> reactionCountMap = queryFactory
                 .from(reaction)
@@ -123,5 +143,25 @@ public class ArticleCustomRepositoryImpl implements ArticleCustomRepository {
                 article,
                 vote.choice,
                 Choice.SECOND);
+    }
+
+    private ArticleToReviewResponse buildArticleToReviewResponse(Long articleId) {
+        Long voteCount = queryFactory
+                .select(vote.count())
+                .from(vote)
+                .where(vote.article.id.eq(articleId))
+                .fetchOne();
+
+        return queryFactory
+                .select(new QArticleToReviewResponse(
+                        getArticleDto(),
+                        getUserSimpleDto(),
+                        Expressions.constant(voteCount != null ? voteCount : 0L),
+                        getFirstChoicePercentage(),
+                        getSecondChoicePercentage()))
+                .from(article)
+                .innerJoin(article.user, user)
+                .where(article.id.eq(articleId))
+                .fetchOne();
     }
 }

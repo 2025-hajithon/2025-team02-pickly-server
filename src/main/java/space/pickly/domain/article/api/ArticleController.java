@@ -14,6 +14,7 @@ import space.pickly.domain.article.application.ArticleService;
 import space.pickly.domain.article.dto.request.ArticleCreateRequest;
 import space.pickly.domain.article.dto.response.ArticleOngoingResponse;
 import space.pickly.domain.article.dto.response.ArticleReviewedResponse;
+import space.pickly.domain.article.dto.response.ArticleToReviewResponse;
 
 @Tag(name = "[Article]", description = "게시글 API")
 @RestController
@@ -41,6 +42,13 @@ public class ArticleController {
     @GetMapping("/reviewed")
     public ResponseEntity<List<ArticleReviewedResponse>> findReviewedArticles() {
         var response = articleService.findReviewedArticles();
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "종료 후 후기 작성 필요한 내 고민 목록 조회", description = "종료된 고민 중 내가 작성하지 않은 후기 목록을 모두 조회합니다.")
+    @GetMapping("/to-review")
+    public ResponseEntity<List<ArticleToReviewResponse>> findMyArticlesToReview() {
+        var response = articleService.findMyArticlesToReview();
         return ResponseEntity.ok(response);
     }
 }

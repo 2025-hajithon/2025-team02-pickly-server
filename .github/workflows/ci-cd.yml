@@ -20,6 +20,14 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-read-only: false  # develop/main 등은 쓰기 허용
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
 
 
       - name: Build (no Test)

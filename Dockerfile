@@ -23,7 +23,7 @@ COPY src src/
 RUN ./gradlew clean bootJar --no-daemon
 
 # --- Runtime Stage: Lightweight JRE ---
-FROM eclipse-temurin:17-jre-jammy
+FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
 # Copy the fat JAR from build stage

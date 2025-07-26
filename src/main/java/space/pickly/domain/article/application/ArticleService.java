@@ -10,6 +10,7 @@ import space.pickly.domain.article.domain.Article;
 import space.pickly.domain.article.dto.request.ArticleCreateRequest;
 import space.pickly.domain.article.dto.response.ArticleOngoingResponse;
 import space.pickly.domain.article.dto.response.ArticleReviewedResponse;
+import space.pickly.domain.article.dto.response.ArticleToReviewResponse;
 import space.pickly.domain.user.domain.User;
 import space.pickly.global.util.UserUtil;
 
@@ -47,5 +48,11 @@ public class ArticleService {
     public List<ArticleReviewedResponse> findReviewedArticles() {
         User currentUser = userUtil.getCurrentUser();
         return articleRepository.findReviewedArticles(currentUser.getId());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ArticleToReviewResponse> findMyArticlesToReview() {
+        User currentUser = userUtil.getCurrentUser();
+        return articleRepository.findMyArticlesToReview(currentUser.getId());
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import space.pickly.domain.article.application.ArticleService;
 import space.pickly.domain.article.dto.request.ArticleCreateRequest;
 import space.pickly.domain.article.dto.response.ArticleOngoingResponse;
+import space.pickly.domain.article.dto.response.ArticleReviewedResponse;
 
 @Tag(name = "[Article]", description = "게시글 API")
 @RestController
@@ -34,5 +35,11 @@ public class ArticleController {
     public ResponseEntity<List<ArticleOngoingResponse>> findOngoingArticles() {
         var response = articleService.findOngoingArticles();
         return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "투표 후 후기 작성된 고민 목록 조회", description = "내가 투표한 이후 후기가 작성된 고민 목록을 모두 조회합니다.")
+    @GetMapping("/reviewed")
+    public ResponseEntity<List<ArticleReviewedResponse>> findReviewedArticles() {
+        return null;
     }
 }

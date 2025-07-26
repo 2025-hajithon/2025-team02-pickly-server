@@ -52,6 +52,13 @@ public class ArticleController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "투표 후 후기 작성된 내 고민 목록 조회", description = "후기가 작성된 내 고민 목록을 모두 조회합니다.")
+    @GetMapping("/reviewed/me")
+    public ResponseEntity<List<ArticleReviewedResponse>> findMyReviewedArticles() {
+        var response = articleService.findMyReviewedArticles();
+        return ResponseEntity.ok(response);
+    }
+
     @Operation(summary = "종료 후 후기 작성 필요한 내 고민 목록 조회", description = "종료된 고민 중 내가 작성하지 않은 후기 목록을 모두 조회합니다.")
     @GetMapping("/to-review")
     public ResponseEntity<List<ArticleToReviewResponse>> findMyArticlesToReview() {

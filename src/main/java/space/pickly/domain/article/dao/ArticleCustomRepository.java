@@ -14,4 +14,6 @@ public interface ArticleCustomRepository {
     List<ArticleReviewedResponse> findReviewedArticles(Long currentUserId);
 
     List<ArticleToReviewResponse> findMyArticlesToReview(Long currentUserId);
+
+    List<ArticleReviewedResponse> findMyReviewedArticles(Long currentUserId);
 }

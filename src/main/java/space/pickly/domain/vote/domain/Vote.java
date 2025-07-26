@@ -1,39 +1,60 @@
 package space.pickly.domain.vote.domain;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import lombok.*;
-import space.pickly.domain.concern.domain.Concern;
-import space.pickly.domain.concern.domain.ConcernItem;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import space.pickly.domain.article.domain.Article;
+import space.pickly.domain.article.domain.Choice;
+import space.pickly.domain.common.model.BaseEntity;
 import space.pickly.domain.user.domain.User;
 
-@Entity
-@Table(name = "votes")
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class Vote {
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(
+        name = "vote",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"article_id", "user_id"})})
+public class Vote extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "vote_id")
     private Long id;
 
-    // 어떤 고민에 대한 투표인지
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "concern_id", nullable = false)
-    private Concern concern;
+    @Enumerated(EnumType.STRING)
+    private Choice choice;
 
-    // 어떤 사용자가 투표했는지
+    @Embedded()
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", nullable = false)
-    private User member;
+    @JoinColumn(name = "article_id")
+    private Article article;
 
-    // 어떤 항목에 투표했는지
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "concern_item_id", nullable = false)
-    private ConcernItem concernItem;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    private LocalDateTime createdAt;
+    @Builder(access = AccessLevel.PRIVATE)
+    private Vote(Choice choice, Article article, User user) {
+        this.choice = choice;
+        this.article = article;
+        this.user = user;
+    }
+
+    public static Vote create(Choice choice, Article article, User user) {
+        return Vote.builder().choice(choice).article(article).user(user).build();
+    }
 }

@@ -1,6 +1,8 @@
 package space.pickly.domain.article.domain;
 
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -37,13 +39,15 @@ public class Article extends BaseEntity {
 
     private LocalDateTime voteEndsAt;
 
+    @Embedded
+    @AttributeOverride(name = "content", column = @Column(name = "review_content"))
     private Review review;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Builder
+    @Builder(access = AccessLevel.PRIVATE)
     private Article(
             String title,
             String content,
@@ -77,5 +81,9 @@ public class Article extends BaseEntity {
                 .review(Review.empty())
                 .user(user)
                 .build();
+    }
+
+    public boolean hasVoteEnded(LocalDateTime now) {
+        return voteEndsAt.isBefore(now);
     }
 }

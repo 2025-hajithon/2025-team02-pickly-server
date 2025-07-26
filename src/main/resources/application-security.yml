@@ -3,6 +3,25 @@ spring:
     activate:
       on-profile: security
 
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            provider: kakao
+            client-id: ${KAKAO_CLIENT_ID:}
+            client-secret: ${KAKAO_CLIENT_SECRET:}
+            authorization-grant-type: authorization_code
+            client-authentication-method: client_secret_post
+            redirect-uri: "https://{baseHost}{basePort}{basePath}/login/oauth2/code/{registrationId}"
+            scope: profile_image, account_email
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+
 jwt:
   issuer: ${SECURITY_JWT_ISSUER:}
   access-token-secret: ${SECURITY_JWT_ACCESS_TOKEN_SECRET:}

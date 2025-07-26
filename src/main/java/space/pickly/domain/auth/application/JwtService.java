@@ -12,6 +12,7 @@ import space.pickly.domain.auth.domain.AccessTokenDto;
 import space.pickly.domain.auth.domain.RefreshToken;
 import space.pickly.domain.auth.dto.dto.RefreshTokenDto;
 import space.pickly.global.exception.CustomException;
+import space.pickly.global.property.JwtProperty;
 import space.pickly.global.util.JwtUtil;
 
 @Slf4j
@@ -21,6 +22,19 @@ public class JwtService {
 
     private final JwtUtil jwtUtil;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final JwtProperty jwtProperty;
+
+    public AccessTokenDto createAccessToken(Long userId) {
+        Instant issuedAt = Instant.now();
+        Instant expiresAt = issuedAt.plusSeconds(jwtProperty.getAccessTokenExpiration());
+        return jwtUtil.generateAccessToken(userId, issuedAt, expiresAt);
+    }
+
+    public RefreshTokenDto createRefreshToken(Long userId) {
+        Instant issuedAt = Instant.now();
+        Instant expiresAt = issuedAt.plusSeconds(jwtProperty.getRefreshTokenExpiration());
+        return jwtUtil.generateRefreshToken(userId, issuedAt, expiresAt);
+    }
 
     public AccessTokenDto createAccessToken(Long userId, Instant issuedAt, Instant expiresAt) {
         return jwtUtil.generateAccessToken(userId, issuedAt, expiresAt);
